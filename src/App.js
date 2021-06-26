@@ -8,17 +8,20 @@ import Login from './Containers/Login';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { QueryGetUser, QueryFindUser, QueryAllUsers, QueryAllGroups, QueryFindGroups } from './graphql/querys';
 import { MutationAcceptInvite, MutationRemoveMessage } from './graphql/mutations';
+import { useCookies } from 'react-cookie';
 
 const LOCALSTORAGE_KEY = "save-account"
 const LOCALSTORAGE_KEY_LOGIN = "save-login"
 
 function App() {
+    const [userCookies, setUserCookie, removeUserCookie] = useCookies(['account'])
+    const [loginCookies, setLoginCookie, removeLoginCookie] = useCookies(['login'])
 
     const savedAccount = localStorage.getItem(LOCALSTORAGE_KEY)
     const savedLogin = localStorage.getItem(LOCALSTORAGE_KEY_LOGIN)
     /* When developing, you can change the following variable */
-    const [account, setAccount] = useState(JSON.parse(savedAccount) || {name: '', password: ''});
-    const [signIn, setSignIn] = useState(savedLogin||false)
+    const [account, setAccount] = useState( userCookies['account'] || {name: '', password: ''});
+    const [signIn, setSignIn] = useState( loginCookies['login'] || false)
     /* -------------------------------------------------- */
 
     const [allUsers, setAllUsers] = useState([])
@@ -46,7 +49,6 @@ function App() {
             'Notification was closed. Either the close button was clicked or duration time elapsed.',
         )
     }
-    
     
     /* Fetch login-in user data and notifications */
     useEffect(()=>{
@@ -210,6 +212,9 @@ function App() {
         // console.log(id)
         setSelectedGroupIDs(id==="All Groups"?[]:[id])
     }
+
+    console.log(document.cookie)
+  
     return (
         <Layout>
             <Header
@@ -223,6 +228,8 @@ function App() {
                 findGroups = {findGroups}
                 allUsers = {allUsers}
                 allGroups = {allGroups}
+                removeUserCookie = {removeUserCookie}
+                removeLoginCookie = {removeLoginCookie}
             />
             {signIn ?
             (<Layout>
@@ -247,6 +254,8 @@ function App() {
                 setSignIn = {setSignIn}
                 LOCALSTORAGE_KEY = {LOCALSTORAGE_KEY}
                 LOCALSTORAGE_KEY_LOGIN = {LOCALSTORAGE_KEY_LOGIN}
+                setUserCookie = {setUserCookie}
+                setLoginCookie = {setLoginCookie}
             />)
             }
             {/* <Footer>Footer</Footer> */}

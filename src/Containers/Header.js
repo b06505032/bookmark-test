@@ -8,7 +8,7 @@ const { confirm } = Modal;
 
 
 
-const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, findUser, findGroups, allUsers, allGroups, setAccount}) => {
+const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, findUser, findGroups, allUsers, allGroups, setAccount, removeUserCookie, removeLoginCookie}) => {
 
     const handleClickLogout = () => {
         showLogoutConfirm()
@@ -30,6 +30,8 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
                 const loginAccount = {name: "",password: ""}
                 setAccount(loginAccount)
                 localStorage.clear()
+                removeUserCookie('account')
+                removeLoginCookie('login')
             },
             onCancel() {
             },

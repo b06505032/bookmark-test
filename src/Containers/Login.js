@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 
 
-const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}) => { 
+const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN, setUserCookie, setLoginCookie}) => { 
 
     const [input, setInput] = useState({name:"", password:""})
     
@@ -27,6 +27,8 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}
                     setAccount(loginAccount)
                     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(loginAccount))
                     localStorage.setItem(LOCALSTORAGE_KEY_LOGIN, true)
+                    setUserCookie('account', loginAccount, {path: '/'})
+                    setLoginCookie('login', true, {path: '/'})
                     setSignIn(true)
                     break
                 }
