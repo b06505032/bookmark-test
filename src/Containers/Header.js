@@ -15,19 +15,19 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
     }
 
     const handleClickAccount = () => {
-        findUser({variables:{name: account.account, type: "all"}})
+        findUser({variables:{name: account.name, type: "all"}})
     }
 
     const showLogoutConfirm = () => {
         confirm({
-            title: `${account.account}, are you sure to log out?`,
+            title: `${account.name}, are you sure to log out?`,
             icon: <ExclamationCircleOutlined />,
             okText: 'Yes',
             cancelText: 'No',
             async onOk() {
                 console.log('logout')
                 setSignIn(false)
-                const loginAccount = {account: "",password: ""}
+                const loginAccount = {name: "",password: ""}
                 setAccount(loginAccount)
                 localStorage.clear()
             },
@@ -61,7 +61,7 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
                 </Col>
                  <Col span={6} order={4}>
                     <Button size="middle" onClick={()=>{handleClickAccount()}}>
-                        {account.account}
+                        {account.name}
                     </Button>
                     <Button size="middle" onClick={()=>{handleClickLogout()}}>
                         Logout
@@ -69,7 +69,7 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
                 </Col>
             </Row>) :
             (<Row align="middle" justify="center">
-                <Title>Bookmark Manager-Testing</Title>
+                <Title>Bookmark Manager</Title>
             </Row>)
             }
         </Header>

@@ -10,7 +10,7 @@ const { confirm } = Modal;
 const LoadMoreList = ({account, groupid, groupID_Name}) => {
     const [list, setList] = useState([])
     
-    const { loading, data: getGroupData, refetch } = useQuery(QueryGetGroupBookMarks, {variables: {user: account.account, password: account.password, id: groupid} })
+    const { loading, data: getGroupData, refetch } = useQuery(QueryGetGroupBookMarks, {variables: {user: account.name, password: account.password, id: groupid} })
     const [ removeBookMarks, {data: removeBookMarksData}] = useMutation(MutationRemoveBookMarks)
 
     useEffect(()=>{
@@ -65,7 +65,7 @@ const LoadMoreList = ({account, groupid, groupID_Name}) => {
             okType: 'danger',
             cancelText: 'No',
             async onOk() {
-                await removeBookMarks({variables:{ user: account.account, password: account.password, group_id: groupid, bookMark_id: bookmarkID}})
+                await removeBookMarks({variables:{ user: account.name, password: account.password, group_id: groupid, bookMark_id: bookmarkID}})
             },
             onCancel() {
             },

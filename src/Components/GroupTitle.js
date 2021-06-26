@@ -9,7 +9,7 @@ const { confirm } = Modal;
 
 
 const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
-    const { loading, error, data } = useQuery(QueryGetGroupUsers, {variables:{user: account.account, password: account.password, id: groupid}})
+    const { loading, error, data } = useQuery(QueryGetGroupUsers, {variables:{user: account.name, password: account.password, id: groupid}})
     const [unsubscribeGroup, {data: unsubscribeGroupData}] = useMutation(MutationUnsubscribeGroup)
     const [subscribeGroup, {data: subscribeGroupData}] = useMutation(MutationSubscribeGroup)
     const [invite] = useMutation(MutationInviteToGroup)
@@ -81,7 +81,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
             cancelText: 'No',
             async onOk() {
                 console.log('leave')
-                await unsubscribeGroup({variables:{ user: account.account, password: account.password, group_id: groupid}})
+                await unsubscribeGroup({variables:{ user: account.name, password: account.password, group_id: groupid}})
             },
             onCancel() {
             },
@@ -90,7 +90,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
 
     const handleClickSubscribe = async () => {
         console.log("click subscribe")
-        await subscribeGroup({variables:{ user: account.account, password: account.password, group_id: groupid}})
+        await subscribeGroup({variables:{ user: account.name, password: account.password, group_id: groupid}})
     }
 
     const handleClickUnsubscribe = (e) => {
@@ -106,7 +106,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
         var msgs = []
         setIsModalVisible(false)
         for (var i=0; i<inviteList.length; i++) {
-            const _result = await invite({variables:{ user: account.account, password: account.password, group_id: groupid, receiverName: inviteList[i] }})
+            const _result = await invite({variables:{ user: account.name, password: account.password, group_id: groupid, receiverName: inviteList[i] }})
             const { msg } = _result
             msgs.push(msg)
         }
@@ -142,7 +142,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
                     <Divider orientation="middle" style={{'color': '#66B3FF'}}>
                         {data.getgroup.data.privacy?(<LockOutlined />):(<></>)}
                         {`     ${groupname}     `}
-                        {data.getgroup.data.users.includes(`${account.account}#owner`) ? 
+                        {data.getgroup.data.users.includes(`${account.name}#owner`) ? 
                         (<>
                             <Tooltip placement="top" title="click to invite others">
                                 <UsergroupAddOutlined onClick={()=>{handleClickInvite()}}/>
@@ -151,7 +151,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
                                 <DeleteOutlined />
                             </Tooltip> */}
                         </>):
-                        data.getgroup.data.users.includes(`${account.account}#editor`) ?
+                        data.getgroup.data.users.includes(`${account.name}#editor`) ?
                         (<Tooltip placement="top" title="click to drop out">
                             <CloseSquareOutlined onClick={()=>{handleClickDropout({type: "Dropout"})}}/>
                         </Tooltip>):

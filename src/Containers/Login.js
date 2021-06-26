@@ -8,11 +8,11 @@ import { useEffect, useState } from 'react';
 
 const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}) => { 
 
-    const [input, setInput] = useState({account:"", password:""})
+    const [input, setInput] = useState({name:"", password:""})
     
     const onFinish = (values) => {
         const { username, password } = values
-        setInput({account: username, password: password})
+        setInput({name: username, password: password})
         checkUser({variables:{name: username, password: password}})
     }
 
@@ -23,7 +23,7 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}
             const { msg } = data.getuser
             switch(msg){
                 case "success": {
-                    const loginAccount = {account: input.account, password: input.password}
+                    const loginAccount = {name: input.name, password: input.password}
                     setAccount(loginAccount)
                     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(loginAccount))
                     localStorage.setItem(LOCALSTORAGE_KEY_LOGIN, true)
@@ -66,6 +66,7 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}
                 <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
+                    id = "login_name"
                 />
             </Form.Item>
             
@@ -83,6 +84,7 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Password"
+                    id = "login_password"
                 />
             </Form.Item>
             
@@ -95,7 +97,7 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN}
             
             {/* Login Button */}
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">
+                <Button type="primary" htmlType="submit" className="login-form-button" id="normal_login_button">
                     Log in
                 </Button>
             {/* Or <a href="">register now!</a> */}

@@ -17,8 +17,8 @@ function App() {
     const savedAccount = localStorage.getItem(LOCALSTORAGE_KEY)
     const savedLogin = localStorage.getItem(LOCALSTORAGE_KEY_LOGIN)
     /* When developing, you can change the following variable */
-    const [account, setAccount] = useState(JSON.parse(savedAccount) || {account: 'gordon', password: '0000'});
-    const [signIn, setSignIn] = useState(savedLogin||true)
+    const [account, setAccount] = useState(JSON.parse(savedAccount) || {name: '', password: ''});
+    const [signIn, setSignIn] = useState(savedLogin||false)
     /* -------------------------------------------------- */
 
     const [allUsers, setAllUsers] = useState([])
@@ -32,7 +32,7 @@ function App() {
     const [selectedGroupIDs, setSelectedGroupIDs] = useState([])
     const [notifications, setNotifications] = useState([])
     
-    const { loading: getUserLoading, error, data: getUserData } = useQuery(QueryGetUser, {variables:{name: account.account, password: account.password}, fetchPolicy: "no-cache", pollInterval: 1000})
+    const { loading: getUserLoading, error, data: getUserData } = useQuery(QueryGetUser, {variables:{name: account.name, password: account.password}, fetchPolicy: "no-cache", pollInterval: 1000})
     const [ findUser, { loading: findUserLoading, data: findUserData} ] = useLazyQuery(QueryFindUser, {fetchPolicy: "no-cache"})
     const [ findGroups, { loading: findGroupsLoading, data: findGroupsData }] = useLazyQuery(QueryFindGroups, {fetchPolicy: "no-cache"})
     const [ getUsers, { data: allUsersData }] = useLazyQuery(QueryAllUsers, {fetchPolicy: "no-cache"})
@@ -46,6 +46,13 @@ function App() {
             'Notification was closed. Either the close button was clicked or duration time elapsed.',
         )
     }
+    
+    useEffect(()=>{
+        chrome.storage.sync.get(['save-account'], function(result) {
+            console.log('Value currently is ' + result['save-account'].name)
+            console.log('Value currently is ' + result['save-account'].password)
+        })
+    },[])
     
     /* Fetch login-in user data and notifications */
     useEffect(()=>{
@@ -130,9 +137,9 @@ function App() {
     /* Show the notification when get the message */
     useEffect(() => {
         const clickAcceptGroupInvite = async (_key, _notificationID) => {
-            await acceptInvite({variables:{ user: account.account, password: account.password, message_id: _notificationID}})
+            await acceptInvite({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
             notification.close(_key)
-            await removeMessage({variables:{ user: account.account, password: account.password, message_id: _notificationID}})
+            await removeMessage({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
         }
         
         const openNotification = (_notification) => {
@@ -209,7 +216,6 @@ function App() {
         // console.log(id)
         setSelectedGroupIDs(id==="All Groups"?[]:[id])
     }
-  
     return (
         <Layout>
             <Header

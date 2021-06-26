@@ -7,7 +7,7 @@ const SearchBar = ({account, groups, users, bookmarks, findUser, findGroups})=> 
         const { type, title } = e
         switch(type){
             case "user": {
-                if (title === account.account){
+                if (title === account.name){
                     findUser({variables:{name: title, type: "all"}})
                 }
                 else findUser({variables:{name: title, type: "public"}})
