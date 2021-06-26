@@ -17,8 +17,8 @@ function App() {
     const savedAccount = localStorage.getItem(LOCALSTORAGE_KEY)
     const savedLogin = localStorage.getItem(LOCALSTORAGE_KEY_LOGIN)
     /* When developing, you can change the following variable */
-    const [account, setAccount] = useState(JSON.parse(savedAccount) || {account: '', password: ''});
-    const [signIn, setSignIn] = useState(savedLogin||false)
+    const [account, setAccount] = useState(JSON.parse(savedAccount) || {account: 'gordon', password: '0000'});
+    const [signIn, setSignIn] = useState(savedLogin||true)
     /* -------------------------------------------------- */
 
     const [allUsers, setAllUsers] = useState([])
