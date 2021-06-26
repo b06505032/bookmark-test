@@ -47,12 +47,6 @@ function App() {
         )
     }
     
-    useEffect(()=>{
-        chrome.storage.sync.get(['save-account'], function(result) {
-            console.log('Value currently is ' + result['save-account'].name)
-            console.log('Value currently is ' + result['save-account'].password)
-        })
-    },[])
     
     /* Fetch login-in user data and notifications */
     useEffect(()=>{
