@@ -5,10 +5,6 @@ query($name: String!, $password: String!){
     getuser(name: $name, password: $password){
         data{
             id
-            tags
-            friends{
-                name
-            }
             groups{
                 id
                 name
