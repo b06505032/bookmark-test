@@ -1,5 +1,5 @@
-import { Modal, Layout, Row, Button, Col, Typography } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Layout, Row, Button, Col, Typography, Avatar, Space } from 'antd';
+import { ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons';
 import GroupSort from '../Components/GroupSort';
 import SearchBar from '../Components/SearchBar';
 const { Header } = Layout;
@@ -62,9 +62,23 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
 
                 </Col>
                  <Col span={6} order={4}>
-                    <Button size="middle" onClick={()=>{handleClickAccount()}}>
-                        {account.name}
-                    </Button>
+                    <Space align="center" onClick={()=>{handleClickAccount()}}>
+                        <Avatar
+                            icon={account.name === 'Jonathan' ? 
+                                <img src='/images/jonathan.jpg' alt='jonathan'/> : 
+                                account.name === 'Catherine' ? 
+                                <img src='/images/Catherine.jpg' alt='catherine'/> : 
+                                account.name === 'gordon' ? 
+                                <img src='/images/gordon.jpg' alt='gordon'/> :
+                                <UserOutlined />}
+                        />
+                        <Button 
+                            size="middle" 
+                        >
+                            {account.name}
+                        </Button>
+                        <span className="mock-block"></span>
+                    </Space>
                     <Button size="middle" onClick={()=>{handleClickLogout()}}>
                         Logout
                     </Button>
