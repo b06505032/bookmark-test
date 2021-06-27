@@ -31,7 +31,7 @@ function App() {
     const [selectedGroupIDs, setSelectedGroupIDs] = useState([])
     const [notifications, setNotifications] = useState([])
     
-    const { loading: getUserLoading, error, data: getUserData } = useQuery(QueryGetUser, {variables:{name: account.name, password: account.password}, fetchPolicy: "no-cache", pollInterval: 1000})
+    const { loading: getUserLoading, error, data: getUserData } = useQuery(QueryGetUser, {variables:{name: account.name, password: account.password}, pollInterval: 1500})
     const [ findUser, { loading: findUserLoading, data: findUserData} ] = useLazyQuery(QueryFindUser, {fetchPolicy: "no-cache"})
     const [ findGroups, { loading: findGroupsLoading, data: findGroupsData }] = useLazyQuery(QueryFindGroups, {fetchPolicy: "no-cache"})
     const [ getUsers, { data: allUsersData }] = useLazyQuery(QueryAllUsers, {fetchPolicy: "no-cache"})
