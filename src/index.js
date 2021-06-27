@@ -42,7 +42,7 @@ const link = split(
 );
 
 const client = new ApolloClient({
-  uri: 'https://gordontest.herokuapp.com/',
+  uri: 'https://gordontest.herokuapp.com',
   cache: new InMemoryCache().restore({}),
 });
 
