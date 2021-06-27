@@ -8,6 +8,7 @@ query($name: String!, $password: String!){
             groups{
                 id
                 name
+                users
             }
             messages{
                 id
@@ -28,6 +29,7 @@ query($name: String!, $type: String!){
             groups{
                 id
                 name
+                users
             }
         }
         msg
@@ -41,6 +43,7 @@ query ($name: String!){
     findGroups(name: $name){
         name
         id
+        users
     } 
   }
 `

@@ -25,6 +25,7 @@ const MyContent = (props) => {
                                 account = {props.account}
                                 groupid = {id}
                                 groupname = {props.groupID_Name[id]}
+                                owner = {props.groupID_Owner[id]}
                                 myGroupIDs = {props.myGroupIDs}
                                 allUsers = {props.allUsers}
                             />

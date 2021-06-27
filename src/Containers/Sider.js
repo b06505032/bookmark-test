@@ -13,7 +13,7 @@ const MySider = (props) => {
             <Menu theme="light" mode="inline" onClick={props.handleClickSideMenu}>
                 <Menu.Item key={`SideMenu-All Groups`}>All Groups</Menu.Item>
                 {props.sortGroupNames.map((item) => { 
-                    return(<Menu.Item key={`SideMenu-${item.id}`}>{item.name}</Menu.Item>)
+                    return(<Menu.Item key={`SideMenu-${item.id}`}>{props.groupID_Owner[item.id]} / {item.name}</Menu.Item>)
                 })}
             </Menu>
             )}

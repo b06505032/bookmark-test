@@ -25,6 +25,7 @@ function App() {
     
     const [myGroupIDs, setMyGroupsIDs] = useState([])
     const [groupID_Name, setGroupIDName] = useState({})
+    const [groupID_Owner, setGroupIDOwner] = useState({})
     const [groups, setGroups] = useState([])
     const [groupSortBy, setGroupSortBy] = useState("Ascending")
     const [sortGroupNames, setSortGroupNames] = useState([])
@@ -51,7 +52,7 @@ function App() {
     }
     
     /* Fetch login-in user data and notifications */
-    useEffect(()=>{
+    useEffect(() =>{
         if(getUserData) {
             const { msg } =  getUserData.getuser
             switch(msg) {
@@ -59,7 +60,7 @@ function App() {
                     const { groups, messages } =  getUserData.getuser.data
                     setGroups(groups)
                     setNotifications(messages)
-                    if (groups.length>0)
+                    if (groups.length > 0)
                         setMyGroupsIDs(groups.map(i=>i.id))
                     break
                 }
@@ -69,9 +70,8 @@ function App() {
     }, [getUserData])
     
     /* Fetch the user names and groups names */
-    useEffect(()=> {
+    useEffect(() => {
         if (signIn === 'true'){
-            console.log("try refetch users groups after signin")
             getUsers()
             getGroups()
         }
@@ -80,13 +80,11 @@ function App() {
     /* Set the user names and group names displaying in the search bar */
     useEffect(() => {
         if(allUsersData) {
-            console.log("refetch users")
             let _users = [...allUsersData.allUsers]
             _users = _users.sort()
             setAllUsers([..._users])
         }
         if(allGroupsData) {
-            console.log("refetch groups")
             var _groups = [...Array.from(new Set(allGroupsData.allGroups))]
             _groups = _groups.sort()
             setAllGroups([..._groups])
@@ -100,7 +98,7 @@ function App() {
             switch(msg) {
                 case "success":{
                     const { groups } = findUserData.finduser.data
-                    setGroups(groups)
+                    setGroups([...groups])
                     break
                 }
                 default: { }
@@ -112,22 +110,35 @@ function App() {
     useEffect(() => {
         if(findGroupsData) {
             if (findGroupsData.findGroups)
-                setGroups(findGroupsData.findGroups)
+                setGroups([...findGroupsData.findGroups])
         }
     }, [findGroupsData])
 
     /* Set the group data displaying in the content */
-    useEffect(()=>{
+    useEffect(() => {
         var _groups = [...groups]
         _groups.sort((a, b) => a.name.localeCompare(b.name))
         setSortGroupNames(_groups)
         var _groupIDName = {}
+        var _groupIDOwner = {}
         groups.map(i=>{
-            const {id, name} = i
+            const {id, name, users} = i
             _groupIDName[id] = name
+            if (users.length > 0) {
+                if(users[0].includes('#owner')){
+                    const owner = users[0].split('#')[0]
+                    _groupIDOwner[id] = owner
+                }
+                else {
+                    _groupIDOwner[id] = ""
+                }
+            } else {
+                _groupIDOwner[id] = ""
+            }
             return 0
         })
         setGroupIDName({..._groupIDName})
+        setGroupIDOwner({..._groupIDOwner})
     }, [groups])
 
     /* Show the notification when get the message */
@@ -262,6 +273,7 @@ function App() {
                     error = {error}
                     sortGroupNames = {sortGroupNames}
                     handleClickSideMenu = {handleClickSideMenu}
+                    groupID_Owner = {groupID_Owner}
                 />
                 <Content
                     account = {account}
@@ -269,6 +281,7 @@ function App() {
                     selectedGroupIDs = {selectedGroupIDs}
                     setSelectedGroupIDs = {setSelectedGroupIDs}
                     groupID_Name = {groupID_Name}
+                    groupID_Owner = {groupID_Owner}
                     myGroupIDs = {myGroupIDs}
                     allUsers = {allUsers}
                 />

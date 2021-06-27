@@ -8,7 +8,7 @@ import InviteToGroupModal from './InviteToGroupModal';
 const { confirm } = Modal;
 
 
-const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
+const GroupTitle = ({account, groupid, groupname, owner, myGroupIDs, allUsers}) => {
     const { loading, error, data } = useQuery(QueryGetGroupUsers, {variables:{user: account.name, password: account.password, id: groupid}})
     const [unsubscribeGroup, {data: unsubscribeGroupData}] = useMutation(MutationUnsubscribeGroup)
     const [subscribeGroup, {data: subscribeGroupData}] = useMutation(MutationSubscribeGroup)
@@ -141,7 +141,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
                     <>
                     <Divider orientation="middle" style={{'color': '#66B3FF'}}>
                         {data.getgroup.data.privacy?(<LockOutlined />):(<></>)}
-                        {`     ${groupname}     `}
+                        {`     ${owner}  /  ${groupname}     `}
                         {data.getgroup.data.users.includes(`${account.name}#owner`) ? 
                         (<>
                             <Tooltip placement="top" title="click to invite others">
@@ -179,7 +179,7 @@ const GroupTitle = ({account, groupid, groupname, myGroupIDs, allUsers}) => {
     }
     return (
         <Divider orientation="middle" style={{'color': '#66B3FF'}}>
-            {`     ${groupname}     `}
+            {`     ${owner}  /  ${groupname}     `}
             <Spin size="small" />
         </Divider>
     )
