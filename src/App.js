@@ -40,10 +40,14 @@ function App() {
     const [ acceptInvite, {data: acceptInviteData} ] = useMutation(MutationAcceptInvite)
     const [ removeMessage ] = useMutation(MutationRemoveMessage)
     
-    const closeNotification = () => {
+    const closeNotification = async (_notificationID) => {
         console.log(
             'Notification was closed. Either the close button was clicked or duration time elapsed.',
         )
+    }
+
+    const closeAndDeleteNotification = async (_notificationID) => {
+        await removeMessage({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
     }
     
     /* Fetch login-in user data and notifications */
@@ -128,21 +132,33 @@ function App() {
 
     /* Show the notification when get the message */
     useEffect(() => {
+        console.log("notice: "+notifications.length)
         const clickAcceptGroupInvite = async (_key, _notificationID) => {
             await acceptInvite({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
             notification.close(_key)
             await removeMessage({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
         }
         
+        const clickAcceptComment = async (_key, _notificationID, URL) => {
+            await removeMessage({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
+            notification.close(_key)
+            window.open(URL, '_blank')
+        }
+
         const openNotification = (_notification) => {
-            const key = `open${Date.now()}`;
+            const key = `open${Date.now()}`
+            var URL
+            if (_notification.type.includes("url#")) {
+                URL = _notification.type.split('#')[1]
+            }
+                
             const btn = (
                 <Button type="primary" size="small" 
                     onClick={_notification.type === "group_invite"?
                         ()=>{clickAcceptGroupInvite(key, _notification.id)}:
-                        ()=>{}}
+                        ()=>{clickAcceptComment(key, _notification.id, URL)}}
                 >
-                    Accept
+                    {_notification.type === "group_invite"?'Accept':'Go to website.'}
                 </Button>
             )
             if (_notification.type === "group_invite")
@@ -154,6 +170,20 @@ function App() {
                     onClose: closeNotification,
                     duration: 0
                 })
+            else if (_notification.type.includes("url#")) {
+                const _url = _notification.type.split('#')[1]
+                const sender = _notification.contain.split('#@#')[0]
+                const senderMsg = _notification.contain.split('#@#')[1]
+                const _description = `${sender} replys "${senderMsg}" on ${_url}.`
+                notification.open({
+                    message: "New message",
+                    description: _description,
+                    btn,
+                    key,
+                    onClose: ()=>{closeAndDeleteNotification(_notification.id)},
+                    duration: 0
+                })
+            }
         }
         
         notifications.map(i => {
