@@ -25,7 +25,7 @@ const Login = ({setAccount, setSignIn, setUserCookie, setLoginCookie}) => {
                 case "success": {
                     const loginAccount = {name: input.name, password: input.password}
                     setAccount(loginAccount)
-                    setUserCookie('account', loginAccount, {path: '/', domain:'https://bookmark-group-manager.vercel.app', secure: true})
+                    setUserCookie('account', loginAccount, {path: '/'})
                     setLoginCookie('login', true, {path: '/'})
                     setSignIn(true)
                     break
