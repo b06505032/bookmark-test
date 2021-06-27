@@ -17,14 +17,14 @@ import { getMainDefinition } from "apollo-utilities";
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: 'http://gordontest.herokuapp.com/',
+  uri: 'http://gordontest.herokuapp.com',
 });
 
 // Create a WebSocket link:
-const wsLink = new WebSocketLink({
-  uri: `ws://gordontest.herokuapp.com/`,
-  options: { reconnect: true },
-});
+// const wsLink = new WebSocketLink({
+//   uri: `ws://gordontest.herokuapp.com`,
+//   options: { reconnect: true },
+// });
 
 // using the ability to split links, you can send data to each link
 // depending on what kind of operation is being sent
@@ -37,7 +37,7 @@ const link = split(
       definition.operation === 'subscription'
     );
   },
-  wsLink,
+  // wsLink,
   httpLink,
 );
 
