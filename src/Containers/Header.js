@@ -26,7 +26,7 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
             cancelText: 'No',
             async onOk() {
                 console.log('logout')
-                setSignIn(false)
+                setSignIn('false')
                 const loginAccount = {name: "", password: ""}
                 setAccount(loginAccount)
                 localStorage.clear()
@@ -40,7 +40,7 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
 
     return (
         <Header  style={{background: '#C4E1FF'}}>
-            {signIn ?
+            {signIn === 'true' ?
             (<Row>
                 <Col span={6} order={1}>
                     <GroupSort

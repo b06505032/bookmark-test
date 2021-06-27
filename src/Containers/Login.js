@@ -26,8 +26,8 @@ const Login = ({setAccount, setSignIn, setUserCookie, setLoginCookie}) => {
                     const loginAccount = {name: input.name, password: input.password}
                     setAccount(loginAccount)
                     setUserCookie('account', loginAccount, {path: '/'})
-                    setLoginCookie('login', true, {path: '/'})
-                    setSignIn(true)
+                    setLoginCookie('login', 'true', {path: '/'})
+                    setSignIn('true')
                     break
                 }
                 case "wrong_password":{

@@ -17,7 +17,7 @@ function App() {
 
     /* When developing, you can change the following variable */
     const [account, setAccount] = useState( userCookies['account'] || {name: '', password: ''});
-    const [signIn, setSignIn] = useState( loginCookies['login'] || false)
+    const [signIn, setSignIn] = useState( loginCookies['login'] || 'false')
     /* -------------------------------------------------- */
 
     const [allUsers, setAllUsers] = useState([])
@@ -66,7 +66,7 @@ function App() {
     
     /* Fetch the user names and groups names */
     useEffect(()=> {
-        if (signIn){
+        if (signIn === 'true'){
             console.log("try refetch users groups after signin")
             getUsers()
             getGroups()
@@ -225,7 +225,7 @@ function App() {
                 removeUserCookie = {removeUserCookie}
                 removeLoginCookie = {removeLoginCookie}
             />
-            {signIn ?
+            {signIn === 'true' ?
             (<Layout>
                 <Sider
                     loading = { getUserLoading || findUserLoading || findGroupsLoading }
