@@ -10,15 +10,11 @@ import { QueryGetUser, QueryFindUser, QueryAllUsers, QueryAllGroups, QueryFindGr
 import { MutationAcceptInvite, MutationRemoveMessage } from './graphql/mutations';
 import { useCookies } from 'react-cookie';
 
-const LOCALSTORAGE_KEY = "save-account"
-const LOCALSTORAGE_KEY_LOGIN = "save-login"
 
 function App() {
     const [userCookies, setUserCookie, removeUserCookie] = useCookies(['account'])
     const [loginCookies, setLoginCookie, removeLoginCookie] = useCookies(['login'])
 
-    const savedAccount = localStorage.getItem(LOCALSTORAGE_KEY)
-    const savedLogin = localStorage.getItem(LOCALSTORAGE_KEY_LOGIN)
     /* When developing, you can change the following variable */
     const [account, setAccount] = useState( userCookies['account'] || {name: '', password: ''});
     const [signIn, setSignIn] = useState( loginCookies['login'] || false)
@@ -212,8 +208,6 @@ function App() {
         // console.log(id)
         setSelectedGroupIDs(id==="All Groups"?[]:[id])
     }
-
-    console.log(document.cookie)
   
     return (
         <Layout>
@@ -252,8 +246,6 @@ function App() {
             (<Login
                 setAccount = {setAccount}
                 setSignIn = {setSignIn}
-                LOCALSTORAGE_KEY = {LOCALSTORAGE_KEY}
-                LOCALSTORAGE_KEY_LOGIN = {LOCALSTORAGE_KEY_LOGIN}
                 setUserCookie = {setUserCookie}
                 setLoginCookie = {setLoginCookie}
             />)

@@ -27,7 +27,7 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
             async onOk() {
                 console.log('logout')
                 setSignIn(false)
-                const loginAccount = {name: "",password: ""}
+                const loginAccount = {name: "", password: ""}
                 setAccount(loginAccount)
                 localStorage.clear()
                 removeUserCookie('account')

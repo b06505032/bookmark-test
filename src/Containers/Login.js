@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 
 
-const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN, setUserCookie, setLoginCookie}) => { 
+const Login = ({setAccount, setSignIn, setUserCookie, setLoginCookie}) => { 
 
     const [input, setInput] = useState({name:"", password:""})
     
@@ -25,8 +25,6 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN,
                 case "success": {
                     const loginAccount = {name: input.name, password: input.password}
                     setAccount(loginAccount)
-                    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(loginAccount))
-                    localStorage.setItem(LOCALSTORAGE_KEY_LOGIN, true)
                     setUserCookie('account', loginAccount, {path: '/'})
                     setLoginCookie('login', true, {path: '/'})
                     setSignIn(true)
@@ -68,7 +66,6 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN,
                 <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
-                    id = "login_name"
                 />
             </Form.Item>
             
@@ -86,7 +83,6 @@ const Login = ({setAccount, setSignIn, LOCALSTORAGE_KEY, LOCALSTORAGE_KEY_LOGIN,
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Password"
-                    id = "login_password"
                 />
             </Form.Item>
             
