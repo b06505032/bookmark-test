@@ -182,8 +182,10 @@ const GroupTitle = ({account, groupid, groupname, owner, myGroupIDs, allUsers}) 
     }
     return (
         <Divider orientation="middle" style={{'color': '#66B3FF'}}>
-            {`     ${owner}  /  ${groupname}     `}
-            <Spin size="small" />
+            <Title level={4} style={{'color': '#66B3FF'}}>
+                {`     ${owner}  /  ${groupname}     `}
+                <Spin size="small" />
+            </Title>
         </Divider>
     )
 }
