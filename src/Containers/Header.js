@@ -8,7 +8,8 @@ const { confirm } = Modal;
 
 
 
-const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, findUser, findGroups, allUsers, allGroups, setAccount, removeUserCookie, removeLoginCookie}) => {
+const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, findUser, findGroups, 
+    allUsers, allGroups, setAccount, removeUserCookie, removeLoginCookie}) => {
 
     const handleClickLogout = () => {
         showLogoutConfirm()
@@ -77,11 +78,10 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
                         >
                             {account.name}
                         </Button>
-                        <span className="mock-block"></span>
-                    </Space>
-                    <Button size="middle" onClick={()=>{handleClickLogout()}}>
-                        Logout
-                    </Button>
+                        <Button size="middle" onClick={()=>{handleClickLogout()}}>
+                            Logout
+                        </Button>
+                    </Space> 
                 </Col>
             </Row>) :
             (<Row align="middle" justify="center">
