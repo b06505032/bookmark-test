@@ -85,7 +85,7 @@ const MyHeader = ({groupSortBy, setGroupSortBy, account, signIn, setSignIn, find
                 </Col>
             </Row>) :
             (<Row align="middle" justify="center">
-                <Title>Bookmark Manager</Title>
+                <Title>Bookmark Group Manager</Title>
             </Row>)
             }
         </Header>
