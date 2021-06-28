@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Modal, List, Tag, message } from 'antd';
+import { Modal, List, Tag, message, Card, Row, Col } from 'antd';
 import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useQuery, useMutation } from '@apollo/client';
 import { QueryGetGroupBookMarks } from '../graphql/querys';
 import { MutationRemoveBookMarks } from '../graphql/mutations';
 const { confirm } = Modal;
+const { Meta } = Card;
 
 
-const LoadMoreList = ({account, groupid, groupID_Name}) => {
+const LoadMoreList = ({account, groupid, groupID_Name, listOrGrid}) => {
     const [list, setList] = useState([])
     
     const { loading, data: getGroupData, refetch } = useQuery(QueryGetGroupBookMarks, {variables: {user: account.name, password: account.password, id: groupid} })
@@ -52,6 +53,7 @@ const LoadMoreList = ({account, groupid, groupID_Name}) => {
                 showDeleteConfirm(e)
                 break
             }
+            default: { }
         }
     }
 
@@ -72,14 +74,38 @@ const LoadMoreList = ({account, groupid, groupID_Name}) => {
         });
     }
       
-    
-    return (
+    var rows = []
+    for (var i = 0; i < parseInt(list.length/4)+1; i++) {
+        var cards  = []
+        for (var j = i*4 ; j < Math.min((i+1)*4, list.length); j++) {
+            const card = 
+                <MyCard
+                    key={`${groupid}-${list[j].id}`}
+                    groupid={groupid}
+                    bookmarkid={list[j].id}
+                    name={list[j].name.split('@')[0]}
+                    url={list[j].url}
+                    tags={list[j].name.split('@')}
+                    loading = {loading}
+                    handleClickEditDelete = {handleClickEditDelete}
+                />
+            cards.push(card)
+        }
+        const row = <Row gutter={16}>{cards}</Row>
+        rows.push(row)
+    }
+
+    return listOrGrid === "Grid" ? (
+        <>
+            {rows}
+        </>
+    ) :
+    (
         <List
             size="small"
             className="demo-loadmore-list"
             loading={loading}
             itemLayout="horizontal"
-            // loadMore={loadMore}
             dataSource={list}
             renderItem={item => {
                 const name = item.name.split('@')[0]
@@ -105,3 +131,26 @@ const LoadMoreList = ({account, groupid, groupID_Name}) => {
   
 }
 export default LoadMoreList
+
+
+const MyCard = ({loading, groupid, bookmarkid, name, url, tags, handleClickEditDelete}) => {
+    var _tags = [...tags]
+    _tags.splice(0, 1)
+    return (
+        <Col span={6}>
+            <Card
+                loading = {loading}
+                style={{ width: 300 }}
+                actions={[
+                    _tags.map(i=>(<Tag key={`ListItemCardTag-${groupid}-${bookmarkid}-${i}`}>{i}</Tag>)),
+                    <DeleteOutlined onClick={()=>{handleClickEditDelete({type: "Delete", bookmarkID: bookmarkid, bookmarkName: name})}}/>
+                ]}
+            >
+                <Meta
+                    title={<a href={url} target="_blank" rel="noopener noreferrer" style={{ color: "black" }}>{name}</a>}
+                    description={<a href={url} target="_blank" rel="noopener noreferrer" style={{ color: "gray" }}>{url}</a>}
+                />
+            </Card>
+        </Col>
+    )
+}
