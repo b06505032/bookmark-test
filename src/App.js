@@ -143,7 +143,6 @@ function App() {
 
     /* Show the notification when get the message */
     useEffect(() => {
-        console.log("notice: "+notifications.length)
         const clickAcceptGroupInvite = async (_key, _notificationID) => {
             await acceptInvite({variables:{ user: account.name, password: account.password, message_id: _notificationID}})
             notification.close(_key)
