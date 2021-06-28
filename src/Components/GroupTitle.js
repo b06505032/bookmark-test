@@ -1,4 +1,4 @@
-import { Modal, Divider, message, Tooltip, Spin } from 'antd';
+import { Modal, Divider, message, Tooltip, Spin, Typography } from 'antd';
 import { CloseSquareOutlined, LockOutlined, ExclamationCircleOutlined, BellOutlined, BellFilled, UsergroupAddOutlined } from '@ant-design/icons';
 import { QueryGetGroupUsers } from '../graphql/querys';
 import { useQuery, useMutation } from '@apollo/client';
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { MutationUnsubscribeGroup, MutationSubscribeGroup, MutationInviteToGroup } from '../graphql/mutations';
 import InviteToGroupModal from './InviteToGroupModal';
 const { confirm } = Modal;
+const { Title } = Typography;
 
 
 const GroupTitle = ({account, groupid, groupname, owner, myGroupIDs, allUsers}) => {
@@ -140,6 +141,7 @@ const GroupTitle = ({account, groupid, groupname, owner, myGroupIDs, allUsers}) 
                 return (
                     <>
                     <Divider orientation="middle" style={{'color': '#66B3FF'}}>
+                    <Title level={4} style={{'color': '#66B3FF'}}>
                         {data.getgroup.data.privacy?(<LockOutlined />):(<></>)}
                         {`     ${owner}  /  ${groupname}     `}
                         {data.getgroup.data.users.includes(`${account.name}#owner`) ? 
@@ -163,6 +165,7 @@ const GroupTitle = ({account, groupid, groupname, owner, myGroupIDs, allUsers}) 
                             <BellOutlined onClick={()=>{handleClickSubscribe()}}/>
                         </Tooltip>)
                         }           
+                    </Title>
                     </Divider>
                     <InviteToGroupModal
                         groupname = {groupname}
